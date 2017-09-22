@@ -139,13 +139,13 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 				{
 					int* pBuffer = (int*)GlobalAlloc(0, sizeof(int) * nSelItems);
 					SendMessage(hList, LB_GETSELITEMS, nSelItems, (LPARAM)pBuffer);
-					INT nLen = 1; // NULL 終端文字分
+					INT nLen = 0;
 					for (int i = 0; i < nSelItems; ++i)
 					{
 						nLen += (INT)SendMessage(hList, LB_GETTEXTLEN, pBuffer[i], 0);
 						nLen += 2; // 改行文字 \r\n 分
 					}
-					HGLOBAL hMem = GlobalAlloc(GMEM_DDESHARE | GMEM_MOVEABLE, sizeof(TCHAR)*(nLen + 1));
+					HGLOBAL hMem = GlobalAlloc(GMEM_DDESHARE | GMEM_MOVEABLE, sizeof(TCHAR)*(nLen + 1)); // NULL 終端文字用の +1
 					LPTSTR lpszBuflpszBuf = (LPTSTR)GlobalLock(hMem);
 					lpszBuflpszBuf[0] = 0;
 					for (int i = 0; i < nSelItems; ++i)
